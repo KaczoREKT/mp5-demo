@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DepartmentRepository extends CrudRepository<Department, Long> {
     public List<Department> findByName(String name);
@@ -13,4 +14,7 @@ public interface DepartmentRepository extends CrudRepository<Department, Long> {
 
     @Query("from Department as d where d.budget > :minBudget")
     public List<Department> findDepartmentsWithBudgetGreaterThan(@Param("minBudget") double minBudget);
+
+    @Query("from Department as d left join fetch d.employees where d.id = :id")
+    public Optional<Department> findById(@Param("id") Long id);
 }

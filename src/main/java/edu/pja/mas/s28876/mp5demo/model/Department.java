@@ -4,10 +4,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Data
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "DEPARTMENT")
+@ToString
 public class Department {
 
     @Id
@@ -32,4 +32,10 @@ public class Department {
 
     @Min(0)
     private double budget;
+
+    @OneToMany(mappedBy = "worksIn", fetch = FetchType.LAZY)
+    @Builder.Default
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<Employee> employees = new HashSet<>();
 }
